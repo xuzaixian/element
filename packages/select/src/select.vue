@@ -78,7 +78,7 @@
       :auto-complete="autoComplete"
       :size="selectSize"
       :disabled="selectDisabled"
-      :readonly="!filterable || multiple || !visible"
+      :readonly="readonly"
       :validate-event="false"
       :class="{ 'is-focus': visible }"
       @focus="handleFocus"
@@ -183,6 +183,13 @@
       _elFormItemSize() {
         return (this.elFormItem || {}).elFormItemSize;
       },
+
+      readonly() {
+        // trade-off for IE input readonly problem: https://github.com/ElemeFE/element/issues/10403
+        const isIE = !this.$isServer && !isNaN(Number(document.documentMode));
+        return !this.filterable || this.multiple || !isIE && !this.visible;
+      },
+
       iconClass() {
         let criteria = this.clearable &&
           !this.selectDisabled &&
@@ -312,7 +319,8 @@
         inputHovering: false,
         currentPlaceholder: '',
         menuVisibleOnFocus: false,
-        isOnComposition: false
+        isOnComposition: false,
+        isSilentBlur: false
       };
     },
 
@@ -565,7 +573,13 @@
       },
 
       handleBlur(event) {
-        this.$emit('blur', event);
+        setTimeout(() => {
+          if (this.isSilentBlur) {
+            this.isSilentBlur = false;
+          } else {
+            this.$emit('blur', event);
+          }
+        }, 50);
         this.softFocus = false;
       },
 
@@ -652,7 +666,7 @@
         }, 300);
       },
 
-      handleOptionSelect(option) {
+      handleOptionSelect(option, byClick) {
         if (this.multiple) {
           const value = this.value.slice();
           const optionIndex = this.getValueIndex(value, option.value);
@@ -674,16 +688,20 @@
           this.emitChange(option.value);
           this.visible = false;
         }
+        this.isSilentBlur = byClick;
+        this.setSoftFocus();
+        if (this.visible) return;
         this.$nextTick(() => {
-          if (this.visible) return;
           this.scrollToOption(option);
-          this.setSoftFocus();
         });
       },
 
       setSoftFocus() {
         this.softFocus = true;
-        (this.$refs.input || this.$refs.reference).focus();
+        const input = this.$refs.input || this.$refs.reference;
+        if (input) {
+          input.focus();
+        }
       },
 
       getValueIndex(arr = [], value) {
