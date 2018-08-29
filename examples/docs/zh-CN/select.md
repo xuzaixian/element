@@ -665,7 +665,8 @@
 | collapse-tags | 多选时是否将选中值按文字的形式展示 | boolean | — | false |
 | multiple-limit | 多选时用户最多可以选择的项目数，为 0 则不限制 | number | — | 0 |
 | name | select input 的 name 属性 | string | — | — |
-| auto-complete | select input 的 autocomplete 属性 | string | — | off |
+| autocomplete | select input 的 autocomplete 属性 | string | — | off |
+| auto-complete | 下个主版本弃用 | string | — | off |
 | placeholder | 占位符 | string | — | 请选择 |
 | filterable | 是否可搜索 | boolean | — | false |
 | allow-create | 是否允许用户创建新条目，需配合 `filterable` 使用 | boolean | — | false |
@@ -691,6 +692,12 @@
 | clear | 可清空的单选模式下用户点击清空按钮时触发 | — |
 | blur | 当 input 失去焦点时触发 | (event: Event) |
 | focus | 当 input 获得焦点时触发 | (event: Event) |
+
+### Select Slots
+|   name  | 说明     |
+|---------|---------|
+|    —    | Option 组件列表 |
+| prefix  | Select 组件头部内容 |
 
 ### Option Group Attributes
 | 参数      | 说明          | 类型      | 可选值                           | 默认值  |

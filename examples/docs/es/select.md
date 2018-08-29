@@ -676,7 +676,8 @@ Si el valor de encuadernación de Select es un objeto, asegúrese de asignar `va
 | clearable            | si el single select puede ser limpiable  | boolean  | —                 | false            |
 | multiple-limit       | maximo numero de opciones que el usuario puede seleccionar cuando `multiple` es `true`.  Sin límite cuando se fija a 0 | number   | —                 | 0                |
 | name                 | el atributo `name` del input seleccionado | string   | —                 | —                |
-| auto-complete        | el atributo `autocomplete` del input seleccionado | string   | —         | off              |
+| autocomplete         | el atributo `autocomplete` del input seleccionado | string   | —         | off              |
+| auto-complete         | @DEPRECATED in next major version | string   | —         | off              |
 | placeholder          | placeholder                              | string   | —                 | Select           |
 | filterable           | si Select es filtrable                   | boolean  | —                 | false            |
 | allow-create         | si esta permitido crear nuevos items. Para usar esto, `filterable` debe ser `true`. | boolean  | —                 | false            |
@@ -702,6 +703,12 @@ Si el valor de encuadernación de Select es un objeto, asegúrese de asignar `va
 | clear          | se dispara cuando el icono se clickea en un Select limpiable | —                                        |
 | blur           | se dispara cuando el input pierde el foco | (event: Event)                           |
 | focus          | se dispara cuando el input obtiene el foco | (event: Event)                           |
+
+### Select Slots
+| Name    | Description |
+|---------|-------------|
+|    —    | lista de los componentes Option |
+| prefix  | contenido prefix de un  Select |
 
 ### Atributos del grupo de opciones
 | Atributo | Descripción                              | Tipo    | Valores aceptados | Por defecto |
